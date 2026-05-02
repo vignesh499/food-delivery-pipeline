@@ -57,7 +57,7 @@ def run_pipeline():
     print(f"  PIPELINE COMPLETE — Total time: {total_time:.2f}s")
     print(f"  Database: {db_path}")
     if HAS_MATPLOTLIB:
-        print(f"  Charts:   data/visualizations/")
+        print(f"  Charts:   outputs/")
     print("=" * 60)
 
 

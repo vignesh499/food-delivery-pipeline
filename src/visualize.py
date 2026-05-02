@@ -6,35 +6,42 @@ import matplotlib.pyplot as plt
 import os
 
 
-OUTPUT_DIR = "data/visualizations"
+DB_PATH = "data/food_delivery.db"
+OUTPUT_DIR = "outputs"
 
 
-def setup_style():
+def get_connection():
+    return sqlite3.connect(DB_PATH)
+
+
+def save_chart(fig, filename):
+    os.makedirs(OUTPUT_DIR, exist_ok=True)
+    filepath = os.path.join(OUTPUT_DIR, filename)
+    fig.savefig(filepath, dpi=150, bbox_inches="tight", facecolor="#1e1e2e")
+    plt.close(fig)
+    print(f"[Viz] Saved: {filepath}")
+
+
+def apply_dark_theme():
     plt.rcParams.update({
-        "figure.facecolor": "#1a1a2e",
-        "axes.facecolor": "#16213e",
-        "axes.edgecolor": "#e94560",
-        "axes.labelcolor": "#ffffff",
-        "text.color": "#ffffff",
-        "xtick.color": "#cccccc",
-        "ytick.color": "#cccccc",
-        "grid.color": "#2a2a4a",
-        "grid.alpha": 0.5,
+        "figure.facecolor": "#1e1e2e",
+        "axes.facecolor": "#2b2b3d",
+        "axes.edgecolor": "#444466",
+        "axes.labelcolor": "#e0e0e0",
+        "text.color": "#e0e0e0",
+        "xtick.color": "#b0b0b0",
+        "ytick.color": "#b0b0b0",
+        "grid.color": "#3a3a5c",
+        "grid.alpha": 0.4,
         "font.size": 11,
-        "axes.titlesize": 14,
+        "axes.titlesize": 15,
         "axes.labelsize": 12,
+        "font.family": "sans-serif",
     })
 
 
-def save_fig(fig, name):
-    os.makedirs(OUTPUT_DIR, exist_ok=True)
-    path = os.path.join(OUTPUT_DIR, f"{name}.png")
-    fig.savefig(path, dpi=150, bbox_inches="tight", facecolor=fig.get_facecolor())
-    plt.close(fig)
-    print(f"[Viz] Saved: {path}")
-
-
-def plot_revenue_by_city(conn):
+def plot_revenue_by_city():
+    conn = get_connection()
     query = """
         SELECT r.restaurant_city AS city,
                ROUND(SUM(o.total_amount), 2) AS total_revenue
@@ -45,155 +52,121 @@ def plot_revenue_by_city(conn):
         ORDER BY total_revenue DESC
     """
     df = pd.read_sql_query(query, conn)
+    conn.close()
 
     fig, ax = plt.subplots(figsize=(12, 6))
-    colors = plt.cm.magma([i / len(df) for i in range(len(df))])
-    bars = ax.barh(df["city"], df["total_revenue"], color=colors, edgecolor="#e94560", linewidth=0.5)
+
+    colors = ["#6c5ce7", "#a29bfe", "#74b9ff", "#55efc4", "#ffeaa7",
+              "#fab1a0", "#fd79a8", "#e17055", "#d63031", "#636e72"]
+
+    bars = ax.barh(df["city"], df["total_revenue"], color=colors[:len(df)],
+                   edgecolor="#1e1e2e", linewidth=1.5, height=0.6)
     ax.set_xlabel("Total Revenue (₹)")
-    ax.set_title("💰 Revenue by City")
+    ax.set_title("Revenue by City", fontweight="bold", pad=15)
     ax.invert_yaxis()
     ax.grid(axis="x", linestyle="--")
 
     for bar, val in zip(bars, df["total_revenue"]):
-        ax.text(val + 1000, bar.get_y() + bar.get_height() / 2,
-                f"₹{val:,.0f}", va="center", fontsize=9, color="#e94560")
+        ax.text(val + 2000, bar.get_y() + bar.get_height() / 2,
+                f"₹{val:,.0f}", va="center", fontsize=9, fontweight="bold",
+                color="#ffeaa7")
 
-    save_fig(fig, "revenue_by_city")
+    save_chart(fig, "revenue_by_city.png")
 
 
-def plot_peak_hours(conn):
+def plot_orders_by_hour():
+    conn = get_connection()
     query = """
-        SELECT o.order_hour, COUNT(o.order_id) AS order_count
+        SELECT o.order_hour AS hour,
+               COUNT(o.order_id) AS total_orders
         FROM fact_orders o
         WHERE o.order_status = 'Delivered'
         GROUP BY o.order_hour
         ORDER BY o.order_hour
     """
     df = pd.read_sql_query(query, conn)
+    conn.close()
 
     fig, ax = plt.subplots(figsize=(12, 6))
-    colors = ["#e94560" if v > df["order_count"].quantile(0.75) else "#533483" for v in df["order_count"]]
-    ax.bar(df["order_hour"], df["order_count"], color=colors, edgecolor="#0f3460", linewidth=0.5)
-    ax.set_xlabel("Hour of Day")
+
+    ax.plot(df["hour"], df["total_orders"], color="#6c5ce7", linewidth=2.5,
+            marker="o", markersize=7, markerfacecolor="#ffeaa7",
+            markeredgecolor="#6c5ce7", markeredgewidth=1.5)
+
+    ax.fill_between(df["hour"], df["total_orders"], alpha=0.15, color="#a29bfe")
+
+    peak_hour = df.loc[df["total_orders"].idxmax()]
+    ax.annotate(f"Peak: {int(peak_hour['hour'])}:00\n({int(peak_hour['total_orders'])} orders)",
+                xy=(peak_hour["hour"], peak_hour["total_orders"]),
+                xytext=(peak_hour["hour"] + 1.5, peak_hour["total_orders"] + 10),
+                fontsize=10, fontweight="bold", color="#ffeaa7",
+                arrowprops=dict(arrowstyle="->", color="#ffeaa7", lw=1.5))
+
+    ax.set_xlabel("Hour of Day (24hr)")
     ax.set_ylabel("Number of Orders")
-    ax.set_title("⏰ Peak Order Hours")
+    ax.set_title("Orders by Hour of Day", fontweight="bold", pad=15)
     ax.set_xticks(range(0, 24))
+    ax.set_xticklabels([f"{h}:00" for h in range(0, 24)], rotation=45, ha="right")
     ax.grid(axis="y", linestyle="--")
 
-    save_fig(fig, "peak_order_hours")
+    save_chart(fig, "orders_by_hour.png")
 
 
-def plot_order_status_distribution(conn):
+def plot_cancellation_rate_by_city():
+    conn = get_connection()
     query = """
-        SELECT order_status, COUNT(*) AS count
-        FROM fact_orders
-        GROUP BY order_status
-    """
-    df = pd.read_sql_query(query, conn)
-
-    fig, ax = plt.subplots(figsize=(8, 8))
-    colors = ["#0f3460", "#e94560", "#533483"]
-    explode = [0.05] * len(df)
-    wedges, texts, autotexts = ax.pie(
-        df["count"], labels=df["order_status"], autopct="%1.1f%%",
-        colors=colors[:len(df)], explode=explode,
-        textprops={"color": "white", "fontsize": 12},
-        wedgeprops={"edgecolor": "#1a1a2e", "linewidth": 2}
-    )
-    ax.set_title("📦 Order Status Distribution")
-
-    save_fig(fig, "order_status_distribution")
-
-
-def plot_cuisine_performance(conn):
-    query = """
-        SELECT r.cuisine_type,
-               COUNT(o.order_id) AS order_count,
-               ROUND(AVG(o.delivery_rating), 2) AS avg_rating
+        SELECT r.restaurant_city AS city,
+               COUNT(o.order_id) AS total_orders,
+               SUM(CASE WHEN o.order_status = 'Cancelled' THEN 1 ELSE 0 END) AS cancelled,
+               ROUND(100.0 * SUM(CASE WHEN o.order_status = 'Cancelled' THEN 1 ELSE 0 END)
+                     / COUNT(o.order_id), 2) AS cancellation_rate
         FROM fact_orders o
         JOIN dim_restaurants r ON o.restaurant_id = r.restaurant_id
-        WHERE o.order_status = 'Delivered'
-        GROUP BY r.cuisine_type
-        ORDER BY order_count DESC
-        LIMIT 10
+        GROUP BY r.restaurant_city
+        ORDER BY cancellation_rate DESC
     """
     df = pd.read_sql_query(query, conn)
+    conn.close()
 
-    fig, ax1 = plt.subplots(figsize=(14, 7))
-    x = range(len(df))
-    bars = ax1.bar(x, df["order_count"], color="#533483", alpha=0.8, label="Order Count", width=0.6)
-    ax1.set_ylabel("Order Count", color="#533483")
-    ax1.set_xlabel("Cuisine Type")
-    ax1.set_title("🍕 Top 10 Cuisines: Orders vs Rating")
+    fig, ax = plt.subplots(figsize=(12, 6))
 
-    ax2 = ax1.twinx()
-    ax2.plot(x, df["avg_rating"], color="#e94560", marker="o", linewidth=2.5, markersize=8, label="Avg Rating")
-    ax2.set_ylabel("Average Rating", color="#e94560")
-    ax2.set_ylim(0, 5.5)
+    colors = ["#d63031" if rate > 10 else "#e17055" if rate > 9 else "#55efc4"
+              for rate in df["cancellation_rate"]]
 
-    ax1.set_xticks(x)
-    ax1.set_xticklabels(df["cuisine_type"], rotation=45, ha="right")
-    ax1.grid(axis="y", linestyle="--")
+    bars = ax.bar(df["city"], df["cancellation_rate"], color=colors,
+                  edgecolor="#1e1e2e", linewidth=1.5, width=0.6)
 
-    lines1, labels1 = ax1.get_legend_handles_labels()
-    lines2, labels2 = ax2.get_legend_handles_labels()
-    ax1.legend(lines1 + lines2, labels1 + labels2, loc="upper right",
-               facecolor="#16213e", edgecolor="#e94560", labelcolor="white")
+    ax.axhline(y=df["cancellation_rate"].mean(), color="#ffeaa7",
+               linestyle="--", linewidth=1.5, label=f"Avg: {df['cancellation_rate'].mean():.1f}%")
 
-    save_fig(fig, "cuisine_performance")
+    for bar, rate in zip(bars, df["cancellation_rate"]):
+        ax.text(bar.get_x() + bar.get_width() / 2, bar.get_height() + 0.2,
+                f"{rate}%", ha="center", fontsize=10, fontweight="bold",
+                color="#ffeaa7")
 
+    ax.set_xlabel("City")
+    ax.set_ylabel("Cancellation Rate (%)")
+    ax.set_title("Cancellation Rate by City", fontweight="bold", pad=15)
+    ax.legend(facecolor="#2b2b3d", edgecolor="#444466", labelcolor="#e0e0e0")
+    ax.grid(axis="y", linestyle="--")
+    plt.xticks(rotation=45, ha="right")
 
-def plot_delivery_delay_impact(conn):
-    query = """
-        SELECT delivery_delay_flag,
-               ROUND(AVG(delivery_rating), 2) AS avg_rating,
-               COUNT(*) AS order_count
-        FROM fact_orders
-        WHERE order_status = 'Delivered' AND delivery_delay_flag IS NOT NULL
-        GROUP BY delivery_delay_flag
-    """
-    df = pd.read_sql_query(query, conn)
-    df["label"] = df["delivery_delay_flag"].map({0: "On Time", 1: "Delayed"})
-
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 6))
-
-    colors = ["#0f3460", "#e94560"]
-    ax1.bar(df["label"], df["avg_rating"], color=colors, edgecolor="#1a1a2e", linewidth=2)
-    ax1.set_ylabel("Average Rating")
-    ax1.set_title("⭐ Rating: On Time vs Delayed")
-    ax1.set_ylim(0, 5.5)
-    ax1.grid(axis="y", linestyle="--")
-
-    for i, (val, label) in enumerate(zip(df["avg_rating"], df["label"])):
-        ax1.text(i, val + 0.1, f"{val:.2f}", ha="center", fontsize=13, fontweight="bold", color="#e94560")
-
-    ax2.bar(df["label"], df["order_count"], color=colors, edgecolor="#1a1a2e", linewidth=2)
-    ax2.set_ylabel("Order Count")
-    ax2.set_title("📊 Volume: On Time vs Delayed")
-    ax2.grid(axis="y", linestyle="--")
-
-    for i, val in enumerate(df["order_count"]):
-        ax2.text(i, val + 20, f"{val:,}", ha="center", fontsize=13, fontweight="bold", color="#e94560")
-
-    fig.suptitle("🚚 Delivery Delay Impact Analysis", fontsize=16, y=1.02)
-    save_fig(fig, "delivery_delay_impact")
+    save_chart(fig, "cancellation_rate_by_city.png")
 
 
-def generate_all_visualizations(db_path="data/food_delivery.db"):
+def generate_all_visualizations(db_path=None):
+    if db_path:
+        global DB_PATH
+        DB_PATH = db_path
+
     print("\n[Viz] Generating visualizations...")
-    setup_style()
+    apply_dark_theme()
 
-    conn = sqlite3.connect(db_path)
+    plot_revenue_by_city()
+    plot_orders_by_hour()
+    plot_cancellation_rate_by_city()
 
-    try:
-        plot_revenue_by_city(conn)
-        plot_peak_hours(conn)
-        plot_order_status_distribution(conn)
-        plot_cuisine_performance(conn)
-        plot_delivery_delay_impact(conn)
-        print(f"[Viz] All visualizations saved to {OUTPUT_DIR}/")
-    finally:
-        conn.close()
+    print(f"[Viz] All 3 charts saved to {OUTPUT_DIR}/")
 
 
 if __name__ == "__main__":

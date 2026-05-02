@@ -180,15 +180,6 @@ Charts are auto-generated in `data/visualizations/`:
 
 ---
 
-## 💼 Resume Bullet Points
-
-- **Built** an end-to-end ETL data pipeline using Python, Pandas, and SQLite to process 5,000+ food delivery orders across 10 cities, implementing star-schema design with fact and dimension tables
-- **Designed** a modular data transformation layer performing datetime parsing, delivery delay flagging, order value bucketing, and customer tenure computation with null-safe operations
-- **Optimized** analytical query performance through strategic indexing on high-cardinality columns, enabling sub-second execution of 10 business intelligence queries across revenue, cancellation, and delivery metrics
-- **Engineered** automated data quality checks including schema validation, primary key deduplication, and referential integrity verification across 3 interconnected datasets
-
----
-
 ## 📄 License
 
 This project is open source and available under the [MIT License](LICENSE).

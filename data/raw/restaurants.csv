@@ -1,0 +1,121 @@
+restaurant_id,restaurant_name,restaurant_city,cuisine_type,restaurant_rating,avg_delivery_time_min
+REST_001,Pasta Palace - Mumbai,Mumbai,North Indian,3.3,26
+REST_002,Dosa Corner - Delhi,Delhi,Chinese,4.7,30
+REST_003,Green Leaf Cafe - Delhi,Delhi,Rajasthani,4.9,41
+REST_004,Noodle Bar - Lucknow,Lucknow,Rajasthani,3.7,21
+REST_005,Samosa House - Pune,Pune,Chinese,4.0,47
+REST_006,The Food Factory - Bangalore,Bangalore,South Indian,3.3,32
+REST_007,The Salad Bowl - Pune,Pune,Mughlai,4.3,54
+REST_008,Wrap It Up - Chennai,Chennai,Mexican,3.2,26
+REST_009,Wok & Roll - Mumbai,Mumbai,Thai,3.9,51
+REST_010,The Food Factory - Bangalore,Bangalore,Continental,2.5,25
+REST_011,Egg Factory - Chennai,Chennai,Japanese,4.1,50
+REST_012,Biryani Blues - Hyderabad,Hyderabad,North Indian,3.0,38
+REST_013,Momos Hub - Delhi,Delhi,Bengali,2.8,45
+REST_014,Momos Hub - Ahmedabad,Ahmedabad,Rajasthani,4.2,25
+REST_015,Wok & Roll - Jaipur,Jaipur,Chinese,3.4,44
+REST_016,Dragon Wok - Kolkata,Kolkata,Fast Food,2.6,48
+REST_017,Sushi Station - Ahmedabad,Ahmedabad,Italian,4.6,23
+REST_018,Chai Point - Bangalore,Bangalore,Korean,4.2,25
+REST_019,Roti Republic - Kolkata,Kolkata,Mughlai,3.5,34
+REST_020,The Food Factory - Jaipur,Jaipur,Bengali,3.5,53
+REST_021,Green Leaf Cafe - Pune,Pune,Japanese,4.7,50
+REST_022,North Indian Kitchen - Lucknow,Lucknow,Italian,3.7,25
+REST_023,North Indian Kitchen - Pune,Pune,Bengali,4.3,52
+REST_024,North Indian Kitchen - Lucknow,Lucknow,Mughlai,4.5,29
+REST_025,Chai Point - Delhi,Delhi,Fast Food,2.9,30
+REST_026,Roti Republic - Hyderabad,Hyderabad,Italian,2.8,47
+REST_027,Wrap It Up - Delhi,Delhi,Street Food,3.0,29
+REST_028,Sushi Station - Lucknow,Lucknow,Continental,4.8,24
+REST_029,Wok & Roll - Delhi,Delhi,Mughlai,3.5,40
+REST_030,Royal Dhaba - Chennai,Chennai,Fast Food,4.8,20
+REST_031,Ice Cream Dream - Lucknow,Lucknow,Mughlai,4.5,27
+REST_032,Pizza Planet - Pune,Pune,Chinese,3.9,26
+REST_033,Ice Cream Dream - Delhi,Delhi,Mediterranean,2.8,38
+REST_034,North Indian Kitchen - Jaipur,Jaipur,Continental,4.7,36
+REST_035,Samosa House - Pune,Pune,Fast Food,3.9,50
+REST_036,Dragon Wok - Mumbai,Mumbai,Mexican,3.5,45
+REST_037,Wok & Roll - Mumbai,Mumbai,Rajasthani,4.7,35
+REST_038,Paneer Paradise - Mumbai,Mumbai,Fast Food,4.8,43
+REST_039,Dosa Corner - Mumbai,Mumbai,Bengali,4.5,39
+REST_040,Egg Factory - Chennai,Chennai,Fast Food,4.6,26
+REST_041,Pizza Planet - Hyderabad,Hyderabad,Mexican,4.9,48
+REST_042,Sushi Station - Kolkata,Kolkata,Korean,3.5,25
+REST_043,Chaat Street - Hyderabad,Hyderabad,Italian,4.8,46
+REST_044,Chai Point - Ahmedabad,Ahmedabad,Mughlai,4.7,23
+REST_045,Roti Republic - Jaipur,Jaipur,Chinese,2.7,52
+REST_046,Pizza Planet - Pune,Pune,Mediterranean,4.6,21
+REST_047,Tandoori Nights - Bangalore,Bangalore,Rajasthani,4.6,23
+REST_048,The Food Factory - Hyderabad,Hyderabad,Fast Food,2.6,43
+REST_049,Sushi Station - Hyderabad,Hyderabad,Continental,4.6,52
+REST_050,Samosa House - Pune,Pune,Rajasthani,2.8,21
+REST_051,Kebab King - Hyderabad,Hyderabad,Fast Food,4.0,31
+REST_052,Ice Cream Dream - Ahmedabad,Ahmedabad,Mughlai,3.4,30
+REST_053,Paneer Paradise - Chennai,Chennai,Bengali,4.2,38
+REST_054,Wok & Roll - Mumbai,Mumbai,North Indian,2.9,33
+REST_055,Samosa House - Hyderabad,Hyderabad,Italian,4.2,37
+REST_056,Royal Dhaba - Pune,Pune,North Indian,4.7,20
+REST_057,Coastal Flavors - Ahmedabad,Ahmedabad,Chinese,4.1,20
+REST_058,Sushi Station - Hyderabad,Hyderabad,Thai,4.5,39
+REST_059,Grill Master - Chennai,Chennai,Rajasthani,3.4,42
+REST_060,Sushi Station - Ahmedabad,Ahmedabad,Italian,3.7,53
+REST_061,Wok & Roll - Lucknow,Lucknow,Thai,2.8,52
+REST_062,Green Leaf Cafe - Kolkata,Kolkata,Japanese,4.0,38
+REST_063,Wrap It Up - Chennai,Chennai,South Indian,3.7,41
+REST_064,Samosa House - Chennai,Chennai,Continental,4.7,36
+REST_065,Tandoori Nights - Chennai,Chennai,Chinese,3.8,35
+REST_066,Roti Republic - Mumbai,Mumbai,Bengali,4.5,45
+REST_067,Wrap It Up - Kolkata,Kolkata,Chinese,4.3,51
+REST_068,Sushi Station - Chennai,Chennai,Rajasthani,3.5,44
+REST_069,Ice Cream Dream - Mumbai,Mumbai,Korean,5.0,32
+REST_070,Paneer Paradise - Kolkata,Kolkata,Korean,3.1,54
+REST_071,Coastal Flavors - Ahmedabad,Ahmedabad,Japanese,3.4,39
+REST_072,Egg Factory - Bangalore,Bangalore,Japanese,4.7,31
+REST_073,Biryani Blues - Chennai,Chennai,Fast Food,2.8,36
+REST_074,Chai Point - Jaipur,Jaipur,Rajasthani,3.0,41
+REST_075,Burger Barn - Delhi,Delhi,Continental,3.1,39
+REST_076,Roti Republic - Pune,Pune,Rajasthani,3.3,36
+REST_077,Pasta Palace - Lucknow,Lucknow,Fast Food,4.6,50
+REST_078,South Spice - Mumbai,Mumbai,Japanese,4.0,24
+REST_079,North Indian Kitchen - Ahmedabad,Ahmedabad,Italian,3.8,44
+REST_080,Pasta Palace - Jaipur,Jaipur,Street Food,2.6,29
+REST_081,Tandoori Nights - Bangalore,Bangalore,Continental,3.5,49
+REST_082,Dosa Corner - Bangalore,Bangalore,Bengali,4.3,25
+REST_083,Dosa Corner - Ahmedabad,Ahmedabad,Japanese,5.0,40
+REST_084,Spice Garden - Mumbai,Mumbai,Fast Food,3.2,30
+REST_085,Chai Point - Lucknow,Lucknow,Chinese,3.7,25
+REST_086,Noodle Bar - Bangalore,Bangalore,Street Food,4.1,45
+REST_087,Momos Hub - Pune,Pune,Street Food,2.5,54
+REST_088,Paneer Paradise - Hyderabad,Hyderabad,Continental,4.9,40
+REST_089,Tandoori Nights - Jaipur,Jaipur,North Indian,4.2,35
+REST_090,The Salad Bowl - Hyderabad,Hyderabad,Rajasthani,3.4,28
+REST_091,Wok & Roll - Delhi,Delhi,Mughlai,4.0,30
+REST_092,Egg Factory - Delhi,Delhi,North Indian,3.2,38
+REST_093,Paneer Paradise - Ahmedabad,Ahmedabad,Mughlai,4.0,41
+REST_094,North Indian Kitchen - Pune,Pune,Japanese,5.0,41
+REST_095,Kebab King - Ahmedabad,Ahmedabad,Mediterranean,3.0,45
+REST_096,Burger Barn - Mumbai,Mumbai,Italian,4.3,28
+REST_097,Paneer Paradise - Hyderabad,Hyderabad,North Indian,4.0,30
+REST_098,Kebab King - Delhi,Delhi,Korean,4.1,22
+REST_099,North Indian Kitchen - Pune,Pune,Japanese,3.1,54
+REST_100,The Food Factory - Lucknow,Lucknow,Thai,5.0,26
+REST_101,The Food Factory - Mumbai,Mumbai,Korean,2.8,48
+REST_102,Biryani Blues - Pune,Pune,Mughlai,3.1,29
+REST_103,The Salad Bowl - Hyderabad,Hyderabad,Japanese,4.1,39
+REST_104,Wrap It Up - Pune,Pune,South Indian,4.2,37
+REST_105,Noodle Bar - Lucknow,Lucknow,Korean,2.8,26
+REST_106,Paneer Paradise - Jaipur,Jaipur,Thai,2.8,27
+REST_107,Momos Hub - Delhi,Delhi,Italian,4.0,36
+REST_108,Tandoori Nights - Jaipur,Jaipur,Continental,4.3,38
+REST_109,The Food Factory - Bangalore,Bangalore,Mughlai,3.7,33
+REST_110,Dosa Corner - Ahmedabad,Ahmedabad,Italian,2.5,25
+REST_111,Egg Factory - Delhi,Delhi,Thai,4.2,29
+REST_112,Chai Point - Delhi,Delhi,Mughlai,2.7,26
+REST_113,Samosa House - Chennai,Chennai,Italian,3.6,38
+REST_114,Chaat Street - Chennai,Chennai,North Indian,2.7,31
+REST_115,South Spice - Mumbai,Mumbai,Mexican,3.4,40
+REST_116,Paneer Paradise - Pune,Pune,South Indian,2.7,22
+REST_117,South Spice - Mumbai,Mumbai,Chinese,4.2,30
+REST_118,Kebab King - Kolkata,Kolkata,Rajasthani,3.6,37
+REST_119,Kebab King - Delhi,Delhi,Bengali,3.4,27
+REST_120,Wok & Roll - Pune,Pune,Fast Food,3.2,44
